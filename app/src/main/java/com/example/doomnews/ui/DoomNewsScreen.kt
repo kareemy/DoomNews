@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -33,7 +32,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -46,7 +44,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.doomnews.R
@@ -105,6 +102,7 @@ fun DoomNewsApp(
                     onClick = {
                         viewModel.updateCurrentArticle(it)
                     },
+                    onBackPressed = { viewModel.navigateToListPage() },
                     selectedArticle = uiState.currentArticle,
                     contentPadding = innerPadding,
                     modifier = Modifier
@@ -340,6 +338,7 @@ private fun DoomNewsImage(
 fun DoomNewsListAndDetails(
     articles: List<NewsArticle>,
     onClick: (NewsArticle) -> Unit,
+    onBackPressed: () -> Unit,
     selectedArticle: NewsArticle,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
@@ -360,7 +359,7 @@ fun DoomNewsListAndDetails(
         )
         DoomNewsDetail(
             selectedArticle = selectedArticle,
-            onBackPressed = { /*TODO*/ },
+            onBackPressed = onBackPressed,
             contentPadding = contentPadding,
             modifier = Modifier.weight(2f),
             imageSize = imageSize
@@ -415,6 +414,7 @@ fun DoomNewsListAndDetailPreview() {
             DoomNewsListAndDetails(
                 articles = DataSource.articles,
                 onClick = { },
+                onBackPressed =  { },
                 selectedArticle = DataSource.articles[0],
                 contentPadding = PaddingValues(0.dp),
                 modifier = Modifier.fillMaxWidth()
